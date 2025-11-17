@@ -1,9 +1,12 @@
 # LING 532 term project
 An investigation of quotatives in the Corpus of Regional African American Language (CORAAL).
 
+## Requirements
+WIP
 ## Data Preprocessing
-This stage requires 1 input:
+This stage, implemeneted in `preprocess.py`, requires 2 inputs:
 1. filepath to plaintext transcripts of CORAAL interview data, under `data/`
+2. filepath to inflected quotative forms, under `config/`
 
 The plaintext transcripts are wrangled into `pandas` `Dataframe` objects with columns:
 
@@ -39,17 +42,21 @@ These independent/predictor variables are associated with different metadata det
 
 ### Speaker-level aggregation
 
-Utterance-level data points are aggregated to the `speaker_id` level. In doing so, the counts of each quotative lemma form are recorded in separate columns (`q_say`, `q_go`, `q_all`, `q_like`). 4 new columns corresponding to the independent variables are also added to the data at this point. 
+Utterance-level data points are aggregated to the `speaker_id` level in `aggregate.py`. In doing so, the counts of each quotative lemma form are recorded in separate columns (`q_say`, `q_go`, `q_all`, `q_like`). 4 new columns corresponding to the independent variables are also added to the data at this point. 
 
-### Correlational Analysis
+### Analysis
+
+To be implemented in `analysis.ipynb`, covers all data visualization:
+
+#### Correlational Analysis
 
 Aggregated quotative counts allow computation of the speaker-level rate of quotative "be like" usage with respect to all other quotative forms. This allows visual analysis of correlation between independent variables described above. 
 
-### Frequency Analysis
+#### Frequency Analysis
 
 Contigency tables for each quotative lemma form and `speaker_id` values are generated to provide more context on the distribution of quotative usage across regions. 
 
-### Linear Classification
+## (TBD) Linear Classification
 
 If time allows, training a linear classifier on the utterance-level data points for each region can help to quantify the strength of the relationship between the independent variables under investigation and quotative forms in AAE. 
 

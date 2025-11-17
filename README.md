@@ -1,2 +1,56 @@
-# sociolx-project
-LING 532 term project; investigating quotatives in Corpus of Regional African American Language (CORAAL). Correlation + frequency analysis
+# LING 532 term project
+An investigation of quotatives in the Corpus of Regional African American Language (CORAAL).
+
+## Data Preprocessing
+This stage requires 1 input:
+1. filepath to plaintext transcripts of CORAAL interview data, under `data/`
+
+The plaintext transcripts are wrangled into `pandas` `Dataframe` objects with columns:
+
+|  name  |  source  |
+|---|---|
+|  `speaker_id`  |  copied from transcript  |
+|  `utterance`  |  copied from transcript  |
+|  `utt_id`  |  utterance position within interview transcript |
+|  `region_id`  | configured separately  |
+
+### Quotative filtering
+As attested by Barbieri (2005), the first aspect of the data to target is whether a transcripted utterance contains a quotative form:
+ - *say*
+ - *go*
+ - *(be) all*
+ - *(be) like*
+
+All relevant inflections are configured in a user-defined file. Note that interaction with the AAE zero-copula feature leads to non-trivial search for quotative forms.
+
+The `utterance` column of the preprocessed `Dataframe` is filtered by the presence of a quotative form. A new column, `target`, is filled with the sub-string of `utterance` which has been matched against a relevant quotative inflected form. Another new column, `quotatitve` is filled with the relevant quotative lemma form. 
+
+## Quantitative Analysis
+
+This stage requires a plaintext CORAAL metadata file. The extracted quotative utterances can now be analyzed for correlation with sociolinguistic variables and relative frequencies across all quotative productions.
+
+### Independent variable(s)
+Correlational and frequency analyses are performed with respect to the following independent variables:
+ - region
+ - age/year of birth
+ - social network ties
+
+These independent/predictor variables are associated with different metadata details, configured in a separate user-defined file. 
+
+### Speaker-level aggregation
+
+Utterance-level data points are aggregated to the `speaker_id` level. In doing so, the counts of each quotative lemma form are recorded in separate columns (`q_say`, `q_go`, `q_all`, `q_like`). 4 new columns corresponding to the independent variables are also added to the data at this point. 
+
+### Correlational Analysis
+
+Aggregated quotative counts allow computation of the speaker-level rate of quotative "be like" usage with respect to all other quotative forms. This allows visual analysis of correlation between independent variables described above. 
+
+### Frequency Analysis
+
+Contigency tables for each quotative lemma form and `speaker_id` values are generated to provide more context on the distribution of quotative usage across regions. 
+
+### Linear Classification
+
+If time allows, training a linear classifier on the utterance-level data points for each region can help to quantify the strength of the relationship between the independent variables under investigation and quotative forms in AAE. 
+
+A linear classifier is trained to predict the `quotative` column value, given all CORAAL metadata columns relevant to each speaker. The identifying `speaker_id`, `region_id` features are removed. The classifier's accuracy is reported to indicate the stable relationship between social metadata features and quotative forms. Additionally, the relative importance of input features can be extracted from the model to strengthen the findings from correlational and frequency analysis.

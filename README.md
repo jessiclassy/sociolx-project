@@ -39,11 +39,11 @@ The plaintext transcripts are wrangled into `pandas` `Dataframe` objects with co
 
 ### Quotative filtering
 As attested by Barbieri (2005) and Cukor-Avila (2012), the first aspect of the data to target is whether a transcripted utterance contains a quotative form with the following lemma:
- - *<say>*
- - *<go>*
- - *<tell (someone)>*
- - *<be all>*
- - *<be like>*
+ - *say*
+ - *go*
+ - *tell <(someone)>*
+ - *(be) all*
+ - *(be) like*
 
 A manual analysis of regular expression matches indicates that there are two quotative contexts which we can examine with this transcript data:
  - before ","

@@ -1,0 +1,64 @@
+q_say:
+  - "say"
+  - "says"
+  # - "saying"
+  - "said"
+
+q_go:
+  - "go"
+  - "goes"
+  # - "going"
+  - "went"
+
+q_tell: # must be followed by an object
+ - "tell"
+ - "tells"
+#  - "telling"
+ - "told"
+
+# q_all: 
+#  - "be all"
+#  - "is all"
+#  - "'s all"
+#  - "I'm all"
+#  - "was all"
+#  - "were all"
+
+# q_like: # bare form must be preceded by pronouns
+#  - "be like"
+#  - "is like"
+#  - "'s like"
+#  - "I'm like"
+#  - "was like"
+#  - "were like"
+
+copula: # forms of copula for combination with 'all' or 'like'
+ - "be"
+ - "is"
+ - "I'm"
+ - "'s"
+ - "was"
+ - "were"
+
+pron: # bare q_all/q_like must be preceded by pronouns
+ - "I"
+ - "you"
+ - "we"
+ - "she"
+ - "he"
+ - "they"
+
+intj:
+ - ah
+ - ay
+ - eh
+ - hah
+ - hey
+ - hm
+ - huh
+ - man
+ - mm
+ - oh
+ - uh
+ - um
+ - yo

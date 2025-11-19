@@ -1,0 +1,23 @@
+q_say:
+  - "say"
+  - "says"
+  - "saying"
+  - "said"
+
+q_go:
+  - "go"
+  - "went"
+  - "goes"
+
+q_all:
+ - "was all"
+ - "be all"
+
+q_like:
+ - "was like"
+ - "were like"
+
+q_tell:
+ - "tell"
+ - "tells"
+ - "told"

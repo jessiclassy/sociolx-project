@@ -3,8 +3,28 @@ An investigation of quotatives in the Corpus of Regional African American Langua
 
 ## Requirements
 WIP
+
+## Directory Structure (WIP)
+
+```cmd
+├── config
+│   └── quotatives.yaml
+├── data
+│   ├── ATL_metadata_2020.05.txt
+│   ├── ATL_textfiles_2020.05
+│   ├── DCB_metadata_2018.10.06.txt
+│   ├── DCB_textfiles_2018.10.06
+│   ├── ROC_metadata_2020.05.txt
+│   ├── ROC_textfiles_2020.05
+│   ├── VLD_metadata_2021.07.txt
+│   ├── VLD_textfiles_2021.07
+├── LICENSE
+├── preprocess.ipynb
+└── README.md
+```
+
 ## Data Preprocessing
-This stage, implemeneted in `preprocess.py`, requires 2 inputs:
+This stage requires 2 inputs:
 1. filepath to plaintext transcripts of CORAAL interview data, under `data/`
 2. filepath to inflected quotative forms, under `config/`
 
@@ -18,19 +38,24 @@ The plaintext transcripts are wrangled into `pandas` `Dataframe` objects with co
 |  `region_id`  | configured separately  |
 
 ### Quotative filtering
-As attested by Barbieri (2005), the first aspect of the data to target is whether a transcripted utterance contains a quotative form:
- - *say*
- - *go*
- - *(be) all*
- - *(be) like*
+As attested by Barbieri (2005) and Cukor-Avila (2012), the first aspect of the data to target is whether a transcripted utterance contains a quotative form with the following lemma:
+ - *<say>*
+ - *<go>*
+ - *<tell (someone)>*
+ - *<be all>*
+ - *<be like>*
 
-All relevant inflections are configured in a user-defined file. Note that interaction with the AAE zero-copula feature leads to non-trivial search for quotative forms.
+A manual analysis of regular expression matches indicates that there are two quotative contexts which we can examine with this transcript data:
+ - before ","
+ - before interjections (a user-defined set)
+
+ Interaction with AAE zero-copula leads to non-trivial search for quotative *be like* forms, as the copula verb is realized in zero form only in cases where contraction is otherwise licensed. 
 
 The `utterance` column of the preprocessed `Dataframe` is filtered by the presence of a quotative form. A new column, `target`, is filled with the sub-string of `utterance` which has been matched against a relevant quotative inflected form. Another new column, `quotatitve` is filled with the relevant quotative lemma form. 
 
 ## Quantitative Analysis
 
-This stage requires a plaintext CORAAL metadata file. The extracted quotative utterances can now be analyzed for correlation with sociolinguistic variables and relative frequencies across all quotative productions.
+This stage requires a plaintext CORAAL metadata file in addition to the preprocessed utterance-level data points. The extracted quotative utterances can now be analyzed for correlation with sociolinguistic variables and relative frequencies across all quotative productions.
 
 ### Independent variable(s)
 Correlational and frequency analyses are performed with respect to the following independent variables:
@@ -42,7 +67,7 @@ These independent/predictor variables are associated with different metadata det
 
 ### Speaker-level aggregation
 
-Utterance-level data points are aggregated to the `speaker_id` level in `aggregate.py`. In doing so, the counts of each quotative lemma form are recorded in separate columns (`q_say`, `q_go`, `q_all`, `q_like`). 4 new columns corresponding to the independent variables are also added to the data at this point. 
+Utterance-level data points are aggregated to the `speaker_id` level in `aggregate.ipynb`. In doing so, the counts of each quotative lemma form are recorded in separate columns (`q_say`, `q_go`,, `q_tell`, `q_all`, `q_like`). New columns corresponding to the independent variables are also added to the data at this point. 
 
 ### Analysis
 

@@ -41,13 +41,20 @@ def create_patterns(
     # copula q-form prefix
     copula_prefix = fr"({'|'.join(pattern_types['copula'])})"
 
-    # general form prefixes
-    q_form_prefix = phrase_boundary_prefix + fr"{pron_prefix} "
-    copula_q_form_prefix = q_form_prefix + copula_prefix + " "
+    # contracted copula q-form prefix
+    contracted_copula_prefix = fr"({'|'.join(pattern_types['contracted_copula'])})"
 
+    # general form prefixes
+    q_form_prefix = phrase_boundary_prefix + fr"({pron_prefix}|{contracted_copula_prefix})"
+    # copula_q_form_prefix = q_form_prefix + copula_prefix + " "
+    q_form_copula_prefix = phrase_boundary_prefix + fr"{pron_prefix} {copula_prefix}"
+
+    q_form_contracted_copula_prefix = phrase_boundary_prefix + fr"{contracted_copula_prefix}"
+
+    q_form_zero_copula_prefix = phrase_boundary_prefix + r"(we|she|he|they) "
     ######################### PREPARE SUFFIX COMPONENTS ########################
     # phrase boundary suffix marked by orthography
-    phrase_boundary_suffix = fr"((,|-)\s)|( [<\(\/\[]{1})"
+    phrase_boundary_suffix = fr"((,|-))|( [<\(\/\[]{1})"
 
     # interjection word suffix
     intj_suffix = fr"( ({'|'.join(pattern_types['intj'])})\s)"
@@ -62,7 +69,7 @@ def create_patterns(
     for k in pattern_types.keys():
         # enumerate out all non-copula q_forms with morphosyntactic coda
         if k.startswith("q_"):
-            pat = q_form_prefix + fr"({'|'.join(pattern_types[k])}\b)"
+            pat = q_form_prefix + fr" ({'|'.join(pattern_types[k])}\b)"
             
             # Q-tell requires an object which can be any combination of non-space characters
             if k.endswith("tell"):
@@ -73,24 +80,34 @@ def create_patterns(
         
     ################### BUILD COPULA-QUOTATIVE REGEXES #########################
     
+    all_pat = r" all" + suffix
+    like_pat = r" like" + suffix
+
     # Q: be all
-    all_pat = copula_q_form_prefix + r"all" + suffix
-    pattern_regex["q_all"] = string_to_compiled_pat(all_pat)
+    all_copula_pat = q_form_copula_prefix + all_pat
+    pattern_regex["q_all_copula"] = string_to_compiled_pat(all_copula_pat)
     
     # Q: be like
-    like_pat = copula_q_form_prefix + r"like" + suffix
-    pattern_regex["q_like"] = string_to_compiled_pat(like_pat)
+    like_copula_pat = q_form_copula_prefix + like_pat
+    pattern_regex["q_like_copula"] = string_to_compiled_pat(like_copula_pat)
     
+    ### CONTRACTED COPULA Q-FORMS ######
+    all_contracted_pat = q_form_contracted_copula_prefix + all_pat
+    pattern_regex["q_all_contracted"] = string_to_compiled_pat(all_contracted_pat)
+
+    like_contracted_pat = q_form_contracted_copula_prefix + like_pat
+    pattern_regex["q_like_contracted"] = string_to_compiled_pat(like_contracted_pat)
+
     ### ZERO COPULA Q-FORMS ######
-    # Use smaller set of pronouns for zero-copula quotatives 
+    # Use smaller set of pronouns for zero-copula quotatives where contraction is allowed
     if not copula_only:
         print("Permitting zero instances of copula-quotatives")
         # Q: all 
-        all_zero_pat = phrase_boundary_prefix + r"(we|she|he|they) " + r"all" + suffix
+        all_zero_pat = q_form_zero_copula_prefix + all_pat
         pattern_regex["q_all_zero"] = string_to_compiled_pat(all_zero_pat)
 
         # Q: like 
-        like_zero_pat = phrase_boundary_prefix + r"(we|she|he|they) " + r"like" + suffix
+        like_zero_pat = q_form_zero_copula_prefix + like_pat
         pattern_regex["q_like_zero"] = string_to_compiled_pat(like_zero_pat)
     else:
         print("Restricting to copula instances of copula-quotatives")
@@ -116,9 +133,9 @@ def main():
 
     # Initialize regular expressions
     q_form_regex = create_patterns(args.any_subject, args.copula_only)
-    # for k in q_form_regex:
-    #     print(k)
-    #     print(q_form_regex[k].pattern)
+    for k in q_form_regex:
+        print(k)
+        print(q_form_regex[k].pattern)
 
     # glob over each text file
     for f in glob("data/*_textfiles_*/*.txt"):

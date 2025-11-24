@@ -35,14 +35,14 @@ def create_patterns(
         print("No subject restriction")
         pron_prefix = ""
 
-    # phrase boundary prefix
-    phrase_boundary_prefix = fr"\b(?<!like )(?<!as )(?:so|but|now|and )?{pron_prefix}"
+    # phrase boundary prefix - filter out construction "like I said", "as I said" but allow other conjunctions
+    phrase_boundary_prefix = fr"\b(?<!like )(?<!as )(?:so|but|now|and )?"
 
     # copula q-form prefix
-    copula_prefix = fr"\s({'|'.join(pattern_types['copula'])})"
+    copula_prefix = fr"({'|'.join(pattern_types['copula'])})"
 
     # general form prefixes
-    q_form_prefix = phrase_boundary_prefix
+    q_form_prefix = phrase_boundary_prefix + fr"{pron_prefix} "
     copula_q_form_prefix = q_form_prefix + copula_prefix + " "
 
     ######################### PREPARE SUFFIX COMPONENTS ########################
@@ -50,9 +50,9 @@ def create_patterns(
     phrase_boundary_suffix = fr"((,|-)\s)|( [<\(\/\[]{1})"
 
     # interjection word suffix
-    intj_suffix = fr"(\s({'|'.join(pattern_types['intj'])})\s)"
+    intj_suffix = fr"( ({'|'.join(pattern_types['intj'])})\s)"
 
-    # tell object suffix
+    # tell object suffix - filter out the construction "tell you"
     tell_obj_suffix = r" (?!you\b)(\S+)"
 
     # general form suffix
@@ -62,7 +62,7 @@ def create_patterns(
     for k in pattern_types.keys():
         # enumerate out all non-copula q_forms with morphosyntactic coda
         if k.startswith("q_"):
-            pat = q_form_prefix + fr" ({'|'.join(pattern_types[k])}\b)"
+            pat = q_form_prefix + fr"({'|'.join(pattern_types[k])}\b)"
             
             # Q-tell requires an object which can be any combination of non-space characters
             if k.endswith("tell"):
@@ -81,16 +81,17 @@ def create_patterns(
     like_pat = copula_q_form_prefix + r"like" + suffix
     pattern_regex["q_like"] = string_to_compiled_pat(like_pat)
     
-    ### BARE COPULA Q-FORMS ######
+    ### ZERO COPULA Q-FORMS ######
+    # Use smaller set of pronouns for zero-copula quotatives 
     if not copula_only:
         print("Permitting zero instances of copula-quotatives")
         # Q: all 
-        all_bare_pat = q_form_prefix + r"all" + suffix
-        pattern_regex["q_all_bare"] = string_to_compiled_pat(all_bare_pat)
+        all_zero_pat = phrase_boundary_prefix + r"(we|she|he|they) " + r"all" + suffix
+        pattern_regex["q_all_zero"] = string_to_compiled_pat(all_zero_pat)
 
         # Q: like 
-        like_bare_pat = q_form_prefix + r"like" + suffix
-        pattern_regex["q_like_bare"] = string_to_compiled_pat(like_bare_pat)
+        like_zero_pat = phrase_boundary_prefix + r"(we|she|he|they) " + r"like" + suffix
+        pattern_regex["q_like_zero"] = string_to_compiled_pat(like_zero_pat)
     else:
         print("Restricting to copula instances of copula-quotatives")
     return pattern_regex
@@ -101,7 +102,7 @@ def main():
     containing probable quotative forms within certain regular expression
     constraints. Options include:
     
-    --copula_only (default TRUE): ignore 'bare' variants of copula-quotatives
+    --copula_only (default TRUE): ignore 'zero' variants of copula-quotatives
     --any_subject (default TRUE): allow left-adjacent strings besides pronouns
     
     """
@@ -115,6 +116,9 @@ def main():
 
     # Initialize regular expressions
     q_form_regex = create_patterns(args.any_subject, args.copula_only)
+    # for k in q_form_regex:
+    #     print(k)
+    #     print(q_form_regex[k].pattern)
 
     # glob over each text file
     for f in glob("data/*_textfiles_*/*.txt"):

@@ -1,41 +1,35 @@
 q_say:
-  - "say"
-  - "says"
-  - "saying"
-  - "said"
+  - "say" # Non-3sing present, habitual
+  - "says" # 3sing present
+  - "saying" # present participle
+  - "said" # simple past tense
 
-q_go:
-  - "go"
-  - "goes"
-  - "went"
+q_go: # present participle omitted for semantic infrequency
+  - "go" # Non-3sing present, habitual
+  - "goes" # 3sing present
+  - "went" # simple past tense
 
 q_tell: # must be followed by an object
- - "tell"
- - "tells"
- - "telling"
- - "told"
+ - "tell" # Non-3sing present, habitual
+ - "tells" # 3sing present
+ - "telling" # present participle
+ - "told" # simple past tense
 
 copula: # forms of copula for combination with 'all' or 'like'
- - "be"
- - "is"
- - "I'm"
- - "'s"
- - "was"
- - "were"
+ - "be" # habitual
+ - "is" # 3sing present
+ - "I'm" #1P present, contracted
+ - "'s" # 3sing present
+ - "was" # past
+ - "were" # plural past
 
 pron: # bare q_all/q_like must be preceded by pronouns
- - "I"
- - "I'm'a"
- - "you"
- - "we"
- - "us"
- - "she"
- - "her"
- - "he"
- - "him"
- - "they"
- - "them"
- - "'em"
+ - "I" # 1P-sing
+ - "you" #2P
+ - "we" #1P-PL
+ - "she" #3sing
+ - "he" #3sing
+ - "they" #3PL
 
 intj:
  - ah

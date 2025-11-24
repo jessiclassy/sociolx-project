@@ -18,10 +18,14 @@ q_tell: # must be followed by an object
 copula: # forms of copula for combination with 'all' or 'like'
  - "be" # habitual
  - "is" # 3sing present
- - "I'm" #1P present, contracted
- - "'s" # 3sing present
  - "was" # past
  - "were" # plural past
+
+contracted_copula: # contracted forms of copula
+ - "I'm"
+ - "we're"
+ - "he's"
+ - "she's"
 
 pron: # bare q_all/q_like must be preceded by pronouns
  - "I" # 1P-sing

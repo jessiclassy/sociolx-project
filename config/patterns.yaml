@@ -1,7 +1,7 @@
 q_say:
   - "say" # Non-3sing present, habitual
   - "says" # 3sing present
-  - "saying" # present participle
+  # - "saying" # present participle
   - "said" # simple past tense
 
 q_go: # present participle omitted for semantic infrequency

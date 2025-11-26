@@ -36,7 +36,7 @@ def create_patterns(
         pron_prefix = ""
 
     # phrase boundary prefix - filter out construction "like I said", "as I said" but allow other conjunctions
-    phrase_boundary_prefix = fr"\b(?<!like )(?<!as )(?:so|but|now|and )?"
+    phrase_boundary_prefix = fr"\b(?<!like )(?<!as )(?<!what )(?:so|but|now|and )?"
 
     # copula q-form prefix
     copula_prefix = fr"({'|'.join(pattern_types['copula'])})"

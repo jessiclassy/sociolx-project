@@ -1,22 +1,67 @@
 q_say:
-  - "say" # Non-3sing present, habitual
-  - "says" # 3sing present
-  # - "saying" # present participle
-  - "said" # simple past tense
+  - "(had said)" # preterite past tense
+  - "((be|was) sayin('|g))" # be V+ing
+  - "say" # unmarked
+  - "says" # -s
+  - "sayin('|g)" # V+ing
+  - "said" # past
 
-q_go: # present participle omitted for semantic infrequency
+q_go: 
+  - "(had went)" # preterite past tense
+  - "((be|was) goin('|g))" # be V+ing
   - "go" # Non-3sing present, habitual
   - "goes" # 3sing present
+  - "goin('|g)" # V+ing
   - "went" # simple past tense
 
 q_tell: # must be followed by an object
+ - "(had told)" # preterite past tense
+ - "((be|was) tellin('|g))" # be V+ing
  - "tell" # Non-3sing present, habitual
  - "tells" # 3sing present
- - "telling" # present participle
+ - "tellin('|g)" # V+ing
  - "told" # simple past tense
+ 
+
+q_think:
+ - "(had thought)" # preterite past tense
+ - "((be|was) thinkin('|g))" # be V+ing
+ - "think" # Non-3sing present, habitual
+ - "thinks" # 3sing present
+ - "thinkin('|g)" # V+ing
+ - "thought" # simple past tense
+ 
+
+q_ask:
+ - "(had asked)" # preterite past tense
+ - "((be|was) askin('|g))" # be V+ing
+ - "ask" # Non-3sing present, habitual
+ - "asks" # 3sing present
+ - "askin('|g)" # V+ing
+ - "asked" # simple past tense
+
+q_yell:
+ - "(had yelled)" # preterite past tense
+ - "((be|was) yellin('|g))" # be V+ing
+ - "yell" # Non-3sing present, habitual
+ - "yells" # 3sing present
+ - "yellin('|g)" # V+ing
+ - "yelled" # simple past tense
+
+q_repeat:
+ - "(had repeated)" # preterite past tense
+ - "((be|was) repeatin('|g))" # be V+ing
+ - "repeat" # Non-3sing present, habitual
+ - "repeats" # 3sing present
+ - "repeatin('|g)" # V+ing
+ - "repeated" # simple past tense
 
 copula: # forms of copula for combination with 'all' or 'like'
- - "be" # habitual
+ - "(had been)" # preterite past tense
+ - "((be|was) bein('|g))" # be V+ing
+ - "be" # unmarked
+ - "been" # present perfect, remote time
+ - "bein('|g)" # V+ing
  - "is" # 3sing present
  - "was" # past
  - "were" # plural past
@@ -29,7 +74,6 @@ contracted_copula: # contracted forms of copula
 
 pron: # bare q_all/q_like must be preceded by pronouns
  - "I" # 1P-sing
- - "you" #2P
  - "we" #1P-PL
  - "she" #3sing
  - "he" #3sing

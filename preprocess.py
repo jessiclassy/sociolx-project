@@ -51,10 +51,10 @@ def create_patterns(
 
     q_form_contracted_copula_prefix = phrase_boundary_prefix + fr"{contracted_copula_prefix}"
 
-    q_form_zero_copula_prefix = phrase_boundary_prefix + r"(we|she|he|they) "
+    q_form_zero_copula_prefix = phrase_boundary_prefix + r"(we|she|he|they)"
     ######################### PREPARE SUFFIX COMPONENTS ########################
     # phrase boundary suffix marked by orthography
-    phrase_boundary_suffix = fr"((,|-))|( [<\(\/\[]{1})"
+    phrase_boundary_suffix = fr"((?: like)?(,|-))|( [<\(\/\[]{1})"
 
     # interjection word suffix
     intj_suffix = fr"( ({'|'.join(pattern_types['intj'])})\s)"
@@ -195,7 +195,7 @@ def main():
     # write data to output with params
     params = vars(args)
     file_params = "_".join([k for k in params if params[k]])
-    df.to_csv(f"output/coraal_q_forms_{file_params}.csv")
+    df.to_csv(f"output/detected_quotatives_{file_params}.csv")
     return
 
 if __name__ == "__main__":

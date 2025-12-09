@@ -1,6 +1,6 @@
 q_say:
-  - "(had said)" # preterite past tense
-  - "((be|was) sayin('|g))" # be V+ing
+  - "(had said)" # preterite past
+  - "((am|be|was|were) sayin('|g))" # be V+ing
   - "say" # unmarked
   - "says" # -s
   - "sayin('|g)" # V+ing
@@ -8,7 +8,7 @@ q_say:
 
 q_go: 
   - "(had went)" # preterite past tense
-  - "((be|was) goin('|g))" # be V+ing
+  - "((am|be|was|were) goin('|g))" # be V+ing
   - "go" # Non-3sing present, habitual
   - "goes" # 3sing present
   - "goin('|g)" # V+ing
@@ -16,7 +16,7 @@ q_go:
 
 q_tell: # must be followed by an object
  - "(had told)" # preterite past tense
- - "((be|was) tellin('|g))" # be V+ing
+ - "((am|be|was|were) tellin('|g))" # be V+ing
  - "tell" # Non-3sing present, habitual
  - "tells" # 3sing present
  - "tellin('|g)" # V+ing
@@ -25,7 +25,7 @@ q_tell: # must be followed by an object
 
 q_think:
  - "(had thought)" # preterite past tense
- - "((be|was) thinkin('|g))" # be V+ing
+ - "((am|be|was|were) thinkin('|g))" # be V+ing
  - "think" # Non-3sing present, habitual
  - "thinks" # 3sing present
  - "thinkin('|g)" # V+ing
@@ -34,7 +34,7 @@ q_think:
 
 q_ask:
  - "(had asked)" # preterite past tense
- - "((be|was) askin('|g))" # be V+ing
+ - "((am|be|was|were) askin('|g))" # be V+ing
  - "ask" # Non-3sing present, habitual
  - "asks" # 3sing present
  - "askin('|g)" # V+ing
@@ -42,7 +42,7 @@ q_ask:
 
 q_yell:
  - "(had yelled)" # preterite past tense
- - "((be|was) yellin('|g))" # be V+ing
+ - "((am|be|was|were) yellin('|g))" # be V+ing
  - "yell" # Non-3sing present, habitual
  - "yells" # 3sing present
  - "yellin('|g)" # V+ing
@@ -50,7 +50,7 @@ q_yell:
 
 q_repeat:
  - "(had repeated)" # preterite past tense
- - "((be|was) repeatin('|g))" # be V+ing
+ - "((am|be|was|were)repeatin('|g))" # be V+ing
  - "repeat" # Non-3sing present, habitual
  - "repeats" # 3sing present
  - "repeatin('|g)" # V+ing
@@ -58,7 +58,7 @@ q_repeat:
 
 copula: # forms of copula for combination with 'all' or 'like'
  - "(had been)" # preterite past tense
- - "((be|was) bein('|g))" # be V+ing
+ - "((am|be|was|were) bein('|g))" # be V+ing
  - "be" # unmarked
  - "been" # present perfect, remote time
  - "bein('|g)" # V+ing

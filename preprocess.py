@@ -5,7 +5,7 @@ from glob import glob
 import os
 from argparse import ArgumentParser
 
-INTERVIEWER_RE = re.compile(r"^\d+\t[A-Z]{3}_(I|i)nt_")
+INTERVIEWER_RE = re.compile(r"^\d+\t(Misc|[A-Z]{3}_(I|i)nt_)")
 OVERLAP_RE = re.compile(r"(\[.+\])")
 
 def string_to_compiled_pat(pat_string):
@@ -36,7 +36,8 @@ def create_patterns(
         pron_prefix = ""
 
     # phrase boundary prefix - filter out construction "like I said", "as I said" but allow other conjunctions
-    phrase_boundary_prefix = fr"\b(?<!like )(?<!as )(?<!what )(?:so|but|now|and )?"
+    blocked = ["like", "as", "what", "when", "why", "where", "how"]
+    phrase_boundary_prefix = fr"\b{''.join([fr'(?<!{b} )' for b in blocked])}(?:so|but|now|and )?"
 
     # copula q-form prefix
     copula_prefix = fr"({'|'.join(pattern_types['copula'])})"
@@ -54,7 +55,7 @@ def create_patterns(
     q_form_zero_copula_prefix = phrase_boundary_prefix + r"(we|she|he|they)"
     ######################### PREPARE SUFFIX COMPONENTS ########################
     # phrase boundary suffix marked by orthography
-    phrase_boundary_suffix = fr"((?: like)?(,|-))|( [<\(\/\[]{1})"
+    phrase_boundary_suffix = r"((?: like)?(,|-))|( [<\(\/\[]{1})"
 
     # interjection word suffix
     intj_suffix = fr"( ({'|'.join(pattern_types['intj'])})\s)"
@@ -133,53 +134,54 @@ def main():
 
     # Initialize regular expressions
     q_form_regex = create_patterns(args.any_subject, args.copula_only)
-    for k in q_form_regex:
-        print(k)
-        print(q_form_regex[k].pattern)
+    # for k in q_form_regex:
+    #     print(k)
+    #     print(q_form_regex[k].pattern)
 
     # glob over each text file
+    total = 0
+    spkr_total = 0
     for f in glob("data/*_textfiles_*/*.txt"):
         
         # store filename as speaker code
-        target_speaker_id = os.path.basename(f)
+        source_name = os.path.basename(f)[:-4]
         
         # store region name
-        region_id = target_speaker_id[0:3]
+        region_id = source_name[0:3]
         
         # read over the lines of the file, filtering against interviewer content
         lines = open(f, mode="r").readlines()[1:] # ignore first line with column names
         
         # now iterate over each line and check for quotatives before storing
         for line in lines:
-            utt_id, _, _, content, _ = line.split("\t")
+            total += 1
+            utt_id, speaker_id, _, content, _ = line.split("\t")
 
             # Extract target speaker's speech when overlapping with interviewer
-            if INTERVIEWER_RE.match(line):
-                overlapping_speech = re.findall(OVERLAP_RE, content)
-                if overlapping_speech:
-                    # Override default content assignment
-                    content = "|".join(overlapping_speech)
-            
-            if content != None:
-                # search for all quotative forms
-                for q in q_form_regex.keys():
-                    # find all form matches
-                    patterns_found = re.findall(q_form_regex[q], content)
-                    forms_found = [p[0] for p in patterns_found]
+            if not INTERVIEWER_RE.match(line):       
+                spkr_total += 1     
+                if content != None:
+                    # search for all quotative forms
+                    for q in q_form_regex.keys():
+                        # find all form matches
+                        patterns_found = re.findall(q_form_regex[q], content)
+                        forms_found = [p[0] for p in patterns_found]
 
-                    # check if forms exist
-                    if len(forms_found):
-                        data.append([
-                            target_speaker_id,
-                            content,
-                            utt_id,
-                            region_id,
-                            q, # the quotative type
-                            forms_found # the target column
-                        ])
+                        # check if forms exist
+                        if len(forms_found):
+                            data.append([
+                                source_name,
+                                speaker_id,
+                                content,
+                                utt_id,
+                                region_id,
+                                q, # the quotative type
+                                forms_found # the target column
+                            ])
     
+    print(f"Examined {spkr_total}/{total} lines")
     #### Convert to DataFrame to print brief overview of counts
-    df = pd.DataFrame(data, columns=["speaker_id", "utterance", "utt_id", "region_id", "q_type", "target"])
+    df = pd.DataFrame(data, columns=["source_file", "speaker_id", "utterance", "utt_id", "region_id", "q_type", "target"])
 
     # Explode target lists into singleton instances with duplicated metadata
     df = df.explode('target')
